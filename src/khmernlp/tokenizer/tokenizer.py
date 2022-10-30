@@ -1,11 +1,14 @@
+import os
 import numpy as np
 from .network import Network
 from .utils import read_pos_map, read_char_map, read_config
 
-config = read_config('src/tokenizer/configs/original_paper.json')
-char_map = read_char_map('src/tokenizer/pretrained/char_map.txt')
-pos_map = read_pos_map('src/tokenizer/pretrained/pos_map.txt')
-weight_path = 'src/tokenizer/pretrained/original_paper.weights.h5'
+dir_name = os.path.dirname(os.path.abspath(__file__))
+print(os.path.join(dir_name, 'configs/original_paper.json'))
+config = read_config(os.path.join(dir_name, 'configs/original_paper.json'))
+char_map = read_char_map(os.path.join(dir_name, 'pretrained/char_map.txt'))
+pos_map = read_pos_map(os.path.join(dir_name, 'pretrained/pos_map.txt'))
+weight_path = os.path.join(dir_name, 'pretrained/original_paper.weights.h5')
 
 num_chars = len(char_map)
 pos_to_index = {pos: i for i, pos in enumerate(pos_map)}
@@ -55,6 +58,6 @@ def tokenize(samples):
         if len(tmp) > 0:
             words.append("".join(tmp))
         result.append((words, pos))
-        
+
     return result
 
